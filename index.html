@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+
+<!-- Mirrored from bdiptv24.com/Toffeelive/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 28 Sep 2024 15:42:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+<title>Home - TangoTV | Powered By KayaTech</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="shortcut icon" href="static/favicon.ico"/>
+<link href="../../cdn.jsdelivr.net/npm/bootstrap%405.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<style>body {background-color: #000000;} .boldbtn { font-weight: bold; }  .prvselect { -webkit-user-select: none; -ms-user-select: none; user-select: none; }</style>
+
+
+
+
+<script>document.write(atob("PHNjcmlwdCB0eXBlPSd0ZXh0L2phdmFzY3JpcHQnIHNyYz0nLy9jb3VuY2lsdm9taXRzY2FybGV0LmNvbS8yOS9lZS8zOC8yOWVlMzgwNmFhNzEwNTg3Y2MwZWEyMTkwNTNiZjI2NC5qcyc+PC9zY3JpcHQ+"));</script>
+
+</head>
+<body>
+    
+    
+    
+    <script>document.write(atob("PHNjcmlwdCB0eXBlPSd0ZXh0L2phdmFzY3JpcHQnIHNyYz0nLy9jb3VuY2lsdm9taXRzY2FybGV0LmNvbS9mMS85Yi9kYS9mMTliZGE0OWEzY2ZmMWEzM2Y3ZDhlNjU3NzhhMWVkMy5qcyc+PC9zY3JpcHQ+"));</script>
+
+<nav class="navbar bg-body-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand"><img src="static/tangoTV.png" alt="TangoTV" width="240"/></a>
+    <form class="d-flex" role="search"></form>
+  </div>
+</nav>
+
+<div class="card bg-body-secondary mt-2 mb-4 px-4 pt-3 pb-3">
+<div class="input-group">
+    <input type="text" class="form-control" placeholder="Enter Something To Search" id="inpSearchTV" autocomplete="off"/>
+    <button class="btn btn-dark boldbtn" type="button" id="btnIPTVlist">IPTV</button>
+</div>
+</div>
+
+<div align="center" class="mt-4 container-fluid" id="tvsGrid"><img src="static/eloader.html" alt="" width="100"/></div>
+
+<script src="../../cdn.jsdelivr.net/npm/bootstrap%405.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="../../cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+$(document).ready(function(){
+    loadTVlist();
+});
+$("#btnIPTVlist").on("click", function(){
+    window.location = "TangoTV_(KayaTech)-17275381261e36.m3u?route=getIPTVList";
+});
+$("#inpSearchTV").keyup(function() {
+    searchTVlist();
+});
+function loadTVlist()
+{
+    $.ajax({
+        "url": "kaya_app.php",
+        "type": "POST",
+        "data": "route=getChannels",
+        "success":function(data)
+        {
+            try { data = JSON.parse(data); }catch(err){}
+            if(data.status == "success")
+            {
+                let lmtl = '';
+                lmtl += '<div class="row mt-3">';
+                $.each(data.data.list, function(k, v) {
+                    lmtl += '<div class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4" data-tvid="' + v.id + '" onclick="playlivetv(this)" title="Watch ' + v.title + ' Live" id="livetvCard">';
+                    lmtl += '<div class="card">';
+                    lmtl += '<div class="card-body">';
+                    lmtl += '<img class="card-img-top" src="' + v.logo + '" width="240" height="140" alt=""/>';
+                    lmtl += '<div class="mt-2 prvselect">';
+                    lmtl += '<b>' + v.title + '</b>';
+                    lmtl += '</div>';
+                    lmtl += '</div>';
+                    lmtl += '</div>';
+                    lmtl += '</div>';
+                });
+                lmtl += '</div>';
+                $("#tvsGrid").html(lmtl);
+            }
+        },
+        "error":function(data)
+        {
+            alert("Error: Server Error or Network Failed");
+        }
+    });
+}
+
+function playlivetv(e)
+{
+    let tv_id = $(e).attr("data-tvid");
+    window.location = "?play=" +tv_id;
+}
+
+function searchTVlist()
+{
+    let query = $("#inpSearchTV").val();
+    $.ajax({
+        "url": "kaya_app.php",
+        "type": "POST",
+        "data": "route=searchChannels&query=" + query,
+        "success":function(data)
+        {
+            try { data = JSON.parse(data); }catch(err){}
+            if(data.status == "success")
+            {
+                let lmtl = '';
+                lmtl += '<div class="row mt-3">';
+                $.each(data.data.list, function(k, v) {
+                    lmtl += '<div class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4" data-tvid="' + v.id + '" onclick="playlivetv(this)" title="Watch ' + v.title + ' Live" id="livetvCard">';
+                    lmtl += '<div class="card">';
+                    lmtl += '<div class="card-body">';
+                    lmtl += '<img class="card-img-top" src="' + v.logo + '" width="240" height="140" alt=""/>';
+                    lmtl += '<div class="mt-2 prvselect">';
+                    lmtl += '<b>' + v.title + '</b>';
+                    lmtl += '</div>';
+                    lmtl += '</div>';
+                    lmtl += '</div>';
+                    lmtl += '</div>';
+                });
+                lmtl += '</div>';
+                $("#tvsGrid").html(lmtl);
+            }
+            else
+            {
+                loadTVlist();
+            }
+        },
+        "error":function(data)
+        {
+            alert("Error: Server Error or Network Failed");
+        }
+    });
+}
+</script>
+</body>
+
+<!-- Mirrored from bdiptv24.com/Toffeelive/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 28 Sep 2024 15:42:07 GMT -->
+</html>
